@@ -204,7 +204,7 @@ func TestOperationTracker_OpContext(t *testing.T) {
 	}
 }
 
-func TestOperationTracker_FilterOps(t *testing.T) {
+func TestOperationTracker_filterOps(t *testing.T) {
 	ctx := context.Background()
 	testOpsMap := map[string]*Operation{
 		test.TestCid1: &Operation{pin: api.PinCid(test.MustDecodeCid(test.TestCid1)), opType: OperationPin, phase: PhaseQueued},
@@ -216,7 +216,7 @@ func TestOperationTracker_FilterOps(t *testing.T) {
 	t.Run("filter ops to pin operations", func(t *testing.T) {
 		wantLen := 2
 		wantOp := OperationPin
-		got := opt.FilterOps(wantOp)
+		got := opt.filterOps(wantOp)
 		if len(got) != wantLen {
 			t.Errorf("want: %d %s operations; got: %d", wantLen, wantOp.String(), len(got))
 		}
@@ -230,7 +230,7 @@ func TestOperationTracker_FilterOps(t *testing.T) {
 	t.Run("filter ops to in progress phase", func(t *testing.T) {
 		wantLen := 2
 		wantPhase := PhaseInProgress
-		got := opt.FilterOps(PhaseInProgress)
+		got := opt.filterOps(PhaseInProgress)
 		if len(got) != wantLen {
 			t.Errorf("want: %d %s operations; got: %d", wantLen, wantPhase.String(), len(got))
 		}
@@ -245,7 +245,7 @@ func TestOperationTracker_FilterOps(t *testing.T) {
 		wantLen := 1
 		wantPhase := PhaseQueued
 		wantOp := OperationPin
-		got := opt.FilterOps(OperationPin, PhaseQueued)
+		got := opt.filterOps(OperationPin, PhaseQueued)
 		if len(got) != wantLen {
 			t.Errorf("want: %d %s operations; got: %d", wantLen, wantPhase.String(), len(got))
 		}
